@@ -5,13 +5,13 @@ import { CreateUserInput } from './user.schema';
 export const createUserController = async (
   req: Request<{}, {}, CreateUserInput>,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const profileImageUrl = req.file ? (req.file as any).location : undefined;
-    
+
     const user = await createUser(req.body, profileImageUrl);
-    
+
     res.status(201).json({
       status: 'success',
       data: { user },
@@ -25,11 +25,7 @@ export const createUserController = async (
   }
 };
 
-export const getUsersController = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getUsersController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await findUsers();
     res.status(200).json({
