@@ -5,13 +5,12 @@ export const createUser = async (input: CreateUserInput, profileImageUrl?: strin
   // In a real application, you should hash the password here before saving
   const user = await UserModel.create({
     ...input,
-    profileImageUrl,
+    profilePhotoUrl: profileImageUrl,
   });
-  
+
   // Return user without password
   const userResponse = user.toJSON();
-  delete userResponse.password;
-  
+
   return userResponse;
 };
 

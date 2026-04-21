@@ -1,13 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
+import { normalizerError } from '../utils/handleError';
+import { response } from './response';
 
 // Global error handler
 export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || 'Internal Server Error';
+  const error = normalizerError(err);
 
-  res.status(statusCode).json({
-    status: 'error',
-    message,
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
-  });
+  res
+    .status(error.statusCode || 500)
+    .json(response.error(error.message, error.details, error.stack));
 };

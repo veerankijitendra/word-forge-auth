@@ -3,6 +3,7 @@ import cors from 'cors';
 import { errorHandler } from './middlewares/errorHandler';
 // Routes
 import userRoutes from './modules/user/user.routes';
+import authRoutes from './modules/auth/auth.routes'
 
 const app: Express = express();
 
@@ -18,6 +19,7 @@ app.get('/health', (req: Request, res: Response) => {
 
 // App Routes
 app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 
 // Error Handler (must be the last middleware)
 app.use(errorHandler);

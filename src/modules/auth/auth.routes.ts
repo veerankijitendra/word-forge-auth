@@ -6,10 +6,10 @@ import { asyncHandler } from '../../middlewares/asyncHandler';
 import { loginController, refreshTokenController } from './auth.controller';
 const router = Router();
 
-router.post('/login', validateResource(LoginRequestSchema), asyncHandler(loginController));
+router.post('/login', validateResource(LoginRequestSchema, "body"), asyncHandler(loginController));
 router.post(
   '/refresh-token',
-  validateResource(RefreshTokenRequestSchema),
+  validateResource(RefreshTokenRequestSchema, "cookies"),
   asyncHandler(refreshTokenController),
 );
 

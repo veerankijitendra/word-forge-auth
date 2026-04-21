@@ -1,22 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import { ZodTypeAny, ZodError } from 'zod';
+import { response } from './response';
 
 export const validateResource =
-  (schema: ZodTypeAny) => (req: Request, res: Response, next: NextFunction) => {
+  (schema: ZodTypeAny, source: 'body' | 'query' | 'params' | 'cookies') =>
+  (req: Request, res: Response, next: NextFunction) => {
     try {
-      schema.parse({
-        body: req.body,
-        query: req.query,
-        params: req.params,
-      });
+      console.log(`Validating ${source} with schema:`, req[source]);
+      schema.parse(req[source]);
       next();
     } catch (e: any) {
       if (e instanceof ZodError) {
-        return res.status(400).json({
-          status: 'error',
-          message: 'Validation failed',
-          errors: e.issues,
-        });
+        return res.status(400).json(response.error('Validation failed', e.issues));
       }
       next(e);
     }
