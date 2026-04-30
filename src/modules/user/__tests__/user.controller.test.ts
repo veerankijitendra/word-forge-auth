@@ -33,7 +33,7 @@ describe('User Controller', () => {
       expect(mockRes.status).toHaveBeenCalledWith(201);
       expect(mockRes.json).toHaveBeenCalledWith({
         status: 'success',
-        data: { user: mockReturnedUser }
+        data: { user: mockReturnedUser },
       });
     });
 
@@ -41,7 +41,7 @@ describe('User Controller', () => {
       mockReq.body = { email: 'duplicate@example.com' };
       const duplicateError = new Error('Duplicate key');
       (duplicateError as any).code = 11000;
-      
+
       (UserService.createUser as jest.Mock).mockRejectedValue(duplicateError);
 
       await createUserController(mockReq as Request, mockRes as Response, mockNext);
@@ -76,7 +76,7 @@ describe('User Controller', () => {
       expect(mockRes.status).toHaveBeenCalledWith(200);
       expect(mockRes.json).toHaveBeenCalledWith({
         status: 'success',
-        data: { users: mockUsersList }
+        data: { users: mockUsersList },
       });
     });
   });

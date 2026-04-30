@@ -4,7 +4,7 @@ import app from '../app';
 describe('App Level Setup', () => {
   it('should return 200 and a status of success from the health check endpoint', async () => {
     const res = await request(app).get('/health');
-    
+
     expect(res.status).toBe(200);
     expect(res.body).toEqual({
       status: 'success',

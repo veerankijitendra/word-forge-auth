@@ -1,17 +1,16 @@
-import { Request, Response, NextFunction } from 'express';
-import { ZodTypeAny, ZodError } from 'zod';
-import { response } from './response';
+import type { Request, Response, NextFunction } from "express";
+import { type ZodTypeAny, ZodError } from "zod";
+import { response } from "./response";
 
 export const validateResource =
-  (schema: ZodTypeAny, source: 'body' | 'query' | 'params' | 'cookies') =>
+  (schema: ZodTypeAny, source: "body" | "query" | "params" | "cookies") =>
   (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log(`Validating ${source} with schema:`, req[source]);
       schema.parse(req[source]);
       next();
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof ZodError) {
-        return res.status(400).json(response.error('Validation failed', e.issues));
+        return res.status(400).json(response.error("Validation failed", e.issues));
       }
       next(e);
     }

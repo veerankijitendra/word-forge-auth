@@ -1,19 +1,24 @@
 class CustomResponse {
-  success<T>(data: T, message: string = 'Success') {
+  success<T>(data: T, message: string = "Success") {
     return {
-      status: 'success',
+      status: "success",
       message,
       data,
     };
   }
 
-  error(message: string = 'Error', details?: any, stack?: string) {
-    return {
-      status: 'error',
+  error(message: string = "Error", details?: unknown, stack?: string) {
+    const errorResponse: { status: string; message: string; details?: unknown; stack?: string } = {
+      status: "error",
       message,
-      ...(details && { details }),
-      ...(stack && { stack }),
     };
+    if (details) {
+      errorResponse.details = details;
+    }
+    if (stack) {
+      errorResponse.stack = stack;
+    }
+    return errorResponse;
   }
 }
 

@@ -1,12 +1,13 @@
-import mongoose from 'mongoose';
-import { env } from './env';
+import mongoose from "mongoose";
+import { env } from "./env";
 
 export const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(env.MONGO_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    await mongoose.connect(env.MONGO_URI);
   } catch (error) {
-    console.error(`Error connecting to MongoDB: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    console.error(
+      `Error connecting to MongoDB: ${error instanceof Error ? error.message : "Unknown error"}`,
+    );
     process.exit(1); // Exit process with failure
   }
 };

@@ -27,12 +27,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/health",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "health"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
             },
             "description": "Returns 200 OK if the API server is up and running."
           },
@@ -79,14 +75,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/auth/login",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "auth",
-                "login"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
             },
             "description": "Logs in a user with email and password and sets the accessToken in environment variable."
           },
@@ -103,14 +93,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/auth/refresh-token",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "auth",
-                "refresh-token"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "refresh-token"]
             },
             "description": "Refreshes the access token using the refreshToken HTTP-only cookie."
           },
@@ -127,14 +111,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/auth/logout",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "auth",
-                "logout"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "logout"]
             },
             "description": "Logs out the user by clearing the refreshToken HTTP-only cookie."
           },
@@ -177,13 +155,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/users",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "users"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"]
             },
             "description": "Creates a new user. Form-Data is required if you are uploading a profileImage via Multer. Otherwise raw JSON works too."
           },
@@ -206,13 +179,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/users",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "users"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"]
             },
             "description": "Retrieves the list of all registered users. Passwords are redacted."
           },

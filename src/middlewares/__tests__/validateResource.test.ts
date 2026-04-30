@@ -15,28 +15,20 @@ const testSchema = z.object({
 const testApp = express();
 testApp.use(express.json());
 
-testApp.post(
-  '/test',
-  validateResource(testSchema),
-  (req: Request, res: Response) => {
-    res.status(200).send('Success');
-  }
-);
+testApp.post('/test', validateResource(testSchema), (req: Request, res: Response) => {
+  res.status(200).send('Success');
+});
 
 describe('validateResource middleware', () => {
   it('should pass if the request body is valid', async () => {
-    const res = await request(testApp)
-      .post('/test')
-      .send({ name: 'ValidName' });
+    const res = await request(testApp).post('/test').send({ name: 'ValidName' });
 
     expect(res.status).toBe(200);
     expect(res.text).toBe('Success');
   });
 
   it('should return 400 and formatting errors if body is invalid', async () => {
-    const res = await request(testApp)
-      .post('/test')
-      .send({ name: 'ab' }); // Name is too short (min 3)
+    const res = await request(testApp).post('/test').send({ name: 'ab' }); // Name is too short (min 3)
 
     expect(res.status).toBe(400);
     expect(res.body.status).toBe('error');

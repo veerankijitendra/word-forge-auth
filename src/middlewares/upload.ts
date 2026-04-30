@@ -10,7 +10,11 @@ export const upload = multer({
     s3: s3Client,
     bucket: env.AWS_S3_BUCKET_NAME,
     contentType: multerS3.AUTO_CONTENT_TYPE,
-    key: function (req: Request, file: Express.Multer.File, cb: (error: any, key?: string) => void) {
+    key: function (
+      req: Request,
+      file: Express.Multer.File,
+      cb: (error: any, key?: string) => void,
+    ) {
       const ext = path.extname(file.originalname);
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
       cb(null, `uploads/${file.fieldname}-${uniqueSuffix}${ext}`);

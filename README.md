@@ -3,6 +3,7 @@
 A production-ready Node.js API setup using internal feature-based modular architecture.
 
 ## Tech Stack
+
 - Node.js & Express
 - TypeScript
 - MongoDB with Mongoose
@@ -16,6 +17,7 @@ A production-ready Node.js API setup using internal feature-based modular archit
 3. Start the dev server: `npm run dev`
 
 ## Scripts
+
 - `npm run dev`: Starts the TypeScript server via `ts-node-dev`
 - `npm run build`: Compiles TypeScript to JavaScript
 - `npm start`: Runs the compiled JS from `dist/`
