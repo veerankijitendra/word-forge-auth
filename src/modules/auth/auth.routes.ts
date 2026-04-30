@@ -3,13 +3,18 @@ import { LoginRequestSchema, RefreshTokenRequestSchema } from '@word-forge/schem
 
 import { validateResource } from '../../middlewares/validateResource';
 import { asyncHandler } from '../../middlewares/asyncHandler';
-import { loginController, refreshTokenController } from './auth.controller';
+import { loginController, refreshTokenController, logoutController } from './auth.controller';
 const router = Router();
 
-router.post('/login', validateResource(LoginRequestSchema, "body"), asyncHandler(loginController));
+router.post('/login', validateResource(LoginRequestSchema, 'body'), asyncHandler(loginController));
+router.post(
+  '/logout',
+  validateResource(RefreshTokenRequestSchema, 'cookies'),
+  asyncHandler(logoutController),
+);
 router.post(
   '/refresh-token',
-  validateResource(RefreshTokenRequestSchema, "cookies"),
+  validateResource(RefreshTokenRequestSchema, 'cookies'),
   asyncHandler(refreshTokenController),
 );
 

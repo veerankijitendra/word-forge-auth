@@ -6,7 +6,7 @@ dotenv.config();
 
 const envSchema = z.object({
   PORT: z.string().default('5000'),
-  MONGO_URI: z.string().url(),
+  MONGO_URI: z.url(),
   AWS_REGION: z.string(),
   AWS_ACCESS_KEY_ID: z.string(),
   AWS_SECRET_ACCESS_KEY: z.string(),

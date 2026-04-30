@@ -9,6 +9,11 @@
       "key": "baseUrl",
       "value": "http://localhost:5000",
       "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
     }
   ],
   "item": [
@@ -40,6 +45,21 @@
       "item": [
         {
           "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const responseData = pm.response.json();",
+                  "if (responseData.status === 'success' && responseData.data && responseData.data.accessToken) {",
+                  "    pm.environment.set(\"accessToken\", responseData.data.accessToken);",
+                  "    pm.collectionVariables.set(\"accessToken\", responseData.data.accessToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -68,7 +88,7 @@
                 "login"
               ]
             },
-            "description": "Logs in a user with email and password."
+            "description": "Logs in a user with email and password and sets the accessToken in environment variable."
           },
           "response": []
         },
@@ -76,20 +96,10 @@
           "name": "Refresh Token",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"refreshToken\": \"your_refresh_token_here\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "raw": ""
             },
             "url": {
               "raw": "{{baseUrl}}/api/auth/refresh-token",
@@ -102,7 +112,31 @@
                 "refresh-token"
               ]
             },
-            "description": "Refreshes the access token using a refresh token."
+            "description": "Refreshes the access token using the refreshToken HTTP-only cookie."
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "Logs out the user by clearing the refreshToken HTTP-only cookie."
           },
           "response": []
         }
@@ -158,6 +192,16 @@
         {
           "name": "Get Users",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {

@@ -1,9 +1,11 @@
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { errorHandler } from './middlewares/errorHandler';
+
 // Routes
 import userRoutes from './modules/user/user.routes';
-import authRoutes from './modules/auth/auth.routes'
+import authRoutes from './modules/auth/auth.routes';
 
 const app: Express = express();
 
@@ -11,6 +13,7 @@ const app: Express = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Health Check
 app.get('/health', (req: Request, res: Response) => {
