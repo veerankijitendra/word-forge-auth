@@ -44,12 +44,12 @@ export const loginService = async (
     {
       ip: Array.isArray(ip) ? ip[0] : ip,
       device,
-      expiredAt: new Date(Date.now() + expireTime),
+      expiresAt: new Date(Date.now() + expireTime),
       token: hashRefreshToken(refreshToken),
       createdAt: now,
     },
   ]
-    .filter((token) => token.expiredAt > now)
+    .filter((token) => token.expiresAt > now)
     .slice(-5);
 
   await user.save();
@@ -92,7 +92,7 @@ export const refreshTokenService = async (
 
   const session = user.refreshTokens.find((ref) => ref.token === hashed);
 
-  if (!session || session.expiredAt < new Date()) throw new AppError("Refresh token mismatch", 401);
+  if (!session || session.expiresAt < new Date()) throw new AppError("Refresh token mismatch", 401);
 
   const { _id, email, username } = user.toJSON();
   const accessToken = generateAccessToken({ _id, email, username });
@@ -105,10 +105,10 @@ export const refreshTokenService = async (
     {
       ...session,
       token: hashRefreshToken(newRefreshToken),
-      expiredAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     },
   ]
-    .filter((token) => token.expiredAt > now)
+    .filter((token) => token.expiresAt > now)
     .slice(-5);
 
   await user.save();

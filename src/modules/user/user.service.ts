@@ -5,6 +5,7 @@ export const createUser = async (input: CreateUserInput, profileImageUrl?: strin
   // In a real application, you should hash the password here before saving
   const user = await UserModel.create({
     ...input,
+    role: "user",
     profilePhotoUrl: profileImageUrl,
   });
 

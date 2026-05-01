@@ -15,15 +15,20 @@ const _RefreshTokensSchema = z
   )
   .default([]);
 
+const _UserRoleSchema = z.enum(["admin", "user"]);
+
+type UserRoleType = z.infer<typeof _UserRoleSchema>;
+
 type RefreshTokensType = z.infer<typeof _RefreshTokensSchema>;
 
 export type IUser = CreateUserInput &
   Document & {
     refreshTokens: RefreshTokensType;
+    role: UserRoleType;
     comparePassword: (candidatePassword: string) => Promise<boolean>;
   };
 
-const RefreshTokenSchema = new Schema<CreateUserInput["refreshTokens"][0]>(
+const RefreshTokenSchema = new Schema<RefreshTokensType[0]>(
   {
     token: {
       type: String,
@@ -40,7 +45,7 @@ const RefreshTokenSchema = new Schema<CreateUserInput["refreshTokens"][0]>(
       type: Date,
       default: Date.now,
     },
-    expiredAt: {
+    expiresAt: {
       type: Date,
       required: true,
     },
@@ -58,6 +63,12 @@ const userSchema = new Schema<IUser>(
     goal: { type: String, enum: ["student", "exam", "typing", "professional"] },
     profilePhotoUrl: { type: String, default: "" },
     refreshTokens: [RefreshTokenSchema],
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+      required: true,
+    },
   },
   {
     timestamps: true,
