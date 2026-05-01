@@ -132,18 +132,38 @@
               "mode": "formdata",
               "formdata": [
                 {
-                  "key": "name",
-                  "value": "John Doe",
-                  "type": "text"
-                },
-                {
                   "key": "email",
                   "value": "john.test@example.com",
                   "type": "text"
                 },
                 {
+                  "key": "username",
+                  "value": "johndoe",
+                  "type": "text"
+                },
+                {
+                  "key": "firstName",
+                  "value": "John",
+                  "type": "text"
+                },
+                {
+                  "key": "lastName",
+                  "value": "Doe",
+                  "type": "text"
+                },
+                {
                   "key": "password",
                   "value": "securePassword123!",
+                  "type": "text"
+                },
+                {
+                  "key": "goal",
+                  "value": "student",
+                  "type": "text"
+                },
+                {
+                  "key": "refreshTokens",
+                  "value": "[]",
                   "type": "text"
                 },
                 {

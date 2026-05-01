@@ -19,7 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1030.0",
-    "@word-forge/schemas": "^1.0.11",
+    "@word-forge/schemas": "^1.0.13",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",

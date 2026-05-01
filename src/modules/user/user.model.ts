@@ -1,9 +1,25 @@
 import mongoose, { type Document, Schema } from "mongoose";
+import { z } from "zod";
 import type { CreateUserInput } from "./user.schema";
 import { comparePasswords, hashPassword } from "../../utils/password.util";
 
+const _RefreshTokensSchema = z
+  .array(
+    z.object({
+      token: z.string().min(1, "Token is required"),
+      device: z.string().optional(),
+      ip: z.string().optional(),
+      createdAt: z.coerce.date().default(() => new Date()),
+      expiresAt: z.coerce.date(),
+    }),
+  )
+  .default([]);
+
+type RefreshTokensType = z.infer<typeof _RefreshTokensSchema>;
+
 export type IUser = CreateUserInput &
   Document & {
+    refreshTokens: RefreshTokensType;
     comparePassword: (candidatePassword: string) => Promise<boolean>;
   };
 
