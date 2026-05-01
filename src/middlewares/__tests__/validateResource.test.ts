@@ -1,7 +1,7 @@
-import request from 'supertest';
-import express, { Request, Response } from 'express';
-import { z } from 'zod';
-import { validateResource } from '../validateResource';
+import request from "supertest";
+import express, { type Request, type Response } from "express";
+import { z } from "zod";
+import { validateResource } from "../validateResource";
 
 // Create a dummy schema strictly for testing
 const testSchema = z.object({
@@ -15,24 +15,27 @@ const testSchema = z.object({
 const testApp = express();
 testApp.use(express.json());
 
-testApp.post('/test', validateResource(testSchema), (req: Request, res: Response) => {
-  res.status(200).send('Success');
+testApp.post("/test", validateResource(testSchema, "body"), (req: Request, res: Response) => {
+  res.status(200).send("Success");
 });
 
-describe('validateResource middleware', () => {
-  it('should pass if the request body is valid', async () => {
-    const res = await request(testApp).post('/test').send({ name: 'ValidName' });
+describe("validateResource middleware", () => {
+  it("should pass if the request body is valid", async () => {
+    const res = await request(testApp).post("/test").send({ name: "ValidName" });
 
     expect(res.status).toBe(200);
-    expect(res.text).toBe('Success');
+    expect(res.text).toBe("Success");
   });
 
-  it('should return 400 and formatting errors if body is invalid', async () => {
-    const res = await request(testApp).post('/test').send({ name: 'ab' }); // Name is too short (min 3)
+  it("should return 400 and formatting errors if body is invalid", async () => {
+    const res = await request(testApp).post("/test").send({ name: "ab" }); // Name is too short (min 3)
 
     expect(res.status).toBe(400);
-    expect(res.body.status).toBe('error');
-    expect(res.body.message).toBe('Validation failed');
-    expect(res.body.errors[0].path).toEqual(['body', 'name']);
+    expect((res.body as { status: string }).status).toBe("error");
+    expect((res.body as { message: string }).message).toBe("Validation failed");
+    expect((res.body as { errors: Array<{ path: string[] }> }).errors[0].path).toEqual([
+      "body",
+      "name",
+    ]);
   });
 });

@@ -2,9 +2,9 @@ export class AppError extends Error {
   statusCode: number;
   isOperation: boolean;
   errorCode?: string;
-  details?: string;
+  details?: Record<string, unknown>;
 
-  constructor(message: string, statusCode: number = 500, errorCode?: string, details?: any) {
+  constructor(message: string, statusCode: number = 500, errorCode?: string, details?: Record<string, unknown>) {
     super(message);
     this.statusCode = statusCode;
     this.errorCode = errorCode;

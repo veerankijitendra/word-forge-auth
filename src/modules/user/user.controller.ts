@@ -1,23 +1,28 @@
-import { Request, Response, NextFunction } from 'express';
-import { createUser, findUsers } from './user.service';
-import { CreateUserInput } from './user.schema';
-import { response } from '../../middlewares/response';
+import type { Request, Response, NextFunction } from "express";
+import { createUser, findUsers } from "./user.service";
+import type { CreateUserInput } from "./user.schema";
+import { response } from "../../middlewares/response";
 
 export const createUserController = async (
   req: Request<{}, {}, CreateUserInput>,
   res: Response,
-  next: NextFunction,
 ) => {
-  const profileImageUrl = req.file ? (req.file as any).location : undefined;
+  // const profileImageUrl = req.file
+  //   ? (req.file as Express.Multer.File & { locaton: string }).location
+  //   : undefined;
+
+  const profileImageUrl = req.file
+    ? (req.file as Express.Multer.File & { location: string }).location
+    : undefined;
   const user = await createUser(req.body, profileImageUrl);
 
-  res.status(201).json(response.success(user, 'User created successfully'));
+  res.status(201).json(response.success(user, "User created successfully"));
 };
 
 export const getUsersController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await findUsers();
-    res.status(200).json(response.success(users, 'Users retrieved successfully'));
+    res.status(200).json(response.success(users, "Users retrieved successfully"));
   } catch (error) {
     next(error);
   }

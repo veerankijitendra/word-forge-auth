@@ -1,8 +1,8 @@
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
-import crypto from 'crypto';
+import crypto from "crypto";
 
-import { Request } from 'express';
+import { type Request } from "express";
 
 export const hashPassword = async (password: string): Promise<string> => {
   const saltRounds = 10;
@@ -17,7 +17,7 @@ export const comparePasswords = async (
 };
 
 export const hashRefreshToken = (token: string): string => {
-  return crypto.createHash('sha256').update(token).digest('hex');
+  return crypto.createHash("sha256").update(token).digest("hex");
 };
 
 export const compareRefreshToken = ({
@@ -32,9 +32,9 @@ export const compareRefreshToken = ({
 };
 
 export const getDeviceInfo = (req: Request) => {
-  return req.headers['user-agent'] || 'unknown';
+  return req.headers["user-agent"] || "unknown";
 };
 
 export const getIp = (req: Request) => {
-  return req.headers['x-forwarded-for'] || req.socket.remoteAddress || '';
+  return req.headers["x-forwarded-for"] || req.socket.remoteAddress || "";
 };

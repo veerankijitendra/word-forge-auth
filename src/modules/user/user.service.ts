@@ -1,5 +1,5 @@
-import { UserModel } from './user.model';
-import { CreateUserInput } from './user.schema';
+import { UserModel } from "./user.model";
+import type { CreateUserInput } from "./user.schema";
 
 export const createUser = async (input: CreateUserInput, profileImageUrl?: string) => {
   // In a real application, you should hash the password here before saving
@@ -15,5 +15,5 @@ export const createUser = async (input: CreateUserInput, profileImageUrl?: strin
 };
 
 export const findUsers = async () => {
-  return await UserModel.find().select('-password');
+  return await UserModel.find().select("-password");
 };

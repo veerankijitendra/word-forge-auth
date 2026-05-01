@@ -1,14 +1,14 @@
-import js from '@eslint/js';
-import eslintConfigPrettier from 'eslint-config-prettier';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import js from "@eslint/js";
+import eslintConfigPrettier from "eslint-config-prettier";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default [
   {
-    ignores: ['dist/**', 'coverage/**', 'node_modules/**'],
+    ignores: ["dist/**", "coverage/**", "node_modules/**"],
   },
   {
-    files: ['**/*.{js,mjs,cjs}'],
+    files: ["**/*.{js,mjs,cjs}"],
     ...js.configs.recommended,
     languageOptions: {
       globals: {
@@ -18,10 +18,10 @@ export default [
   },
   ...tseslint.configs.recommendedTypeChecked.map((config) => ({
     ...config,
-    files: ['**/*.ts'],
+    files: ["**/*.ts"],
   })),
   {
-    files: ['**/*.ts'],
+    files: ["**/*.ts"],
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -33,15 +33,15 @@ export default [
       },
     },
     rules: {
-      '@typescript-eslint/consistent-type-imports': ['warn', { prefer: 'type-imports' }],
-      '@typescript-eslint/no-empty-object-type': ['error', { allowObjectTypes: 'always' }],
-      '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/no-floating-promises': 'error',
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      "@typescript-eslint/consistent-type-imports": ["warn", { prefer: "type-imports" }],
+      "@typescript-eslint/no-empty-object-type": ["error", { allowObjectTypes: "always" }],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-floating-promises": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      "no-console": ["warn", { allow: ["warn", "error"] }],
     },
   },
   eslintConfigPrettier,
