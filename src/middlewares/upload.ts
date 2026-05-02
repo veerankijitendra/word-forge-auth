@@ -1,33 +1,19 @@
 import multer from "multer";
-import multerS3 from "multer-s3";
-import { s3Client } from "../config/s3";
-import { env } from "../config/env";
-import path from "path";
 import type { Request } from "express";
+import { AppError } from "../utils/AppError";
+
+const allowedImageMimeTypes = ["image/jpeg", "image/png", "image/webp"];
 
 export const upload = multer({
-  storage: multerS3({
-    s3: s3Client,
-    bucket: env.AWS_S3_BUCKET_NAME,
-    contentType: multerS3.AUTO_CONTENT_TYPE.bind(multerS3),
-    key: function (
-      req: Request,
-      file: Express.Multer.File,
-      cb: (error: Error | null, key?: string) => void,
-    ) {
-      const ext = path.extname(file.originalname);
-      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-      cb(null, `uploads/${file.fieldname}-${uniqueSuffix}${ext}`);
-    },
-  }),
+  storage: multer.memoryStorage(),
   limits: {
     fileSize: 1024 * 1024 * 5, // 5 MB max
   },
   fileFilter: (req: Request, file: Express.Multer.File, cb) => {
-    if (file.mimetype.startsWith("image/")) {
+    if (allowedImageMimeTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error("Not an image! Please upload only images."));
+      cb(new AppError("Please upload only JPEG, PNG, or WebP images.", 400, "INVALID_IMAGE_TYPE"));
     }
   },
 });

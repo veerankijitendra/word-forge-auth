@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { createUserController, getUsersController } from "./user.controller";
+import {
+  createUserController,
+  getUsersController,
+  deleteAllUsersController,
+} from "./user.controller";
 import { validateResource } from "../../middlewares/validateResource";
 import { createUserSchema } from "./user.schema";
 import { upload } from "../../middlewares/upload";
@@ -21,5 +25,7 @@ router.post(
 
 // GET /api/users
 router.get("/", authenticate, getUsersController);
+
+router.delete("/", authenticate, deleteAllUsersController);
 
 export default router;

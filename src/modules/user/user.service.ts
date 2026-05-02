@@ -18,3 +18,7 @@ export const createUser = async (input: CreateUserInput, profileImageUrl?: strin
 export const findUsers = async () => {
   return await UserModel.find().select("-password");
 };
+
+export const deleteAllUsersService = async (): Promise<void> => {
+  await UserModel.collection.drop();
+};
