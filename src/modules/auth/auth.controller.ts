@@ -4,6 +4,7 @@ import { response } from "../../middlewares/response";
 import { loginService, logoutService, refreshTokenService } from "./auth.service";
 import { AppError } from "../../utils/AppError";
 import { getDeviceInfo, getIp } from "../../utils/auth.utils";
+import AuditLogger from "../../utils/logger/logger.auditLogger";
 
 const expireTime = 7 * 24 * 60 * 60 * 1000;
 
@@ -33,9 +34,16 @@ export const loginController = async (
     ip: Array.isArray(ip) ? ip[0] : ip,
   });
 
+  AuditLogger.info({
+    req,
+    data: { email, ip, device },
+    event: "auth.login.success",
+    handler: "loginController",
+    message: "Login successfull",
+  });
+
   res
     .cookie("refreshToken", refreshToken, refreshCookieSetOptions)
-    .header("Authorization", `Bearer ${accessToken}`)
     .status(200)
     .json(response.success({ accessToken }, "Login successful"));
 };
@@ -44,6 +52,13 @@ export const logoutController = async (req: Request, res: Response, _next: NextF
   const { refreshToken } = req.cookies as { refreshToken: string };
 
   await logoutService(refreshToken);
+
+  AuditLogger.info({
+    req,
+    event: "auth.logout.success",
+    handler: "logoutController",
+    message: "Logout successfull",
+  });
 
   res.clearCookie("refreshToken", refreshCookieOptions);
 
