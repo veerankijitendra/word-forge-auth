@@ -1,32 +1,28 @@
 import type { Request, Response, NextFunction } from "express";
 import { asyncHandler } from "./asyncHandler";
 import { verifyAccessToken } from "../utils/token.utils";
-import { response } from "./response";
+import { AppError } from "../utils/AppError";
 
 type AuthenticatedRequest = Request & { user?: Record<string, unknown> };
 
 export const authenticate = asyncHandler(
-  (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    // Here you would typically check for a valid access token in the Authorization header
-    // For demonstration, we'll just check if the header exists and is in the format "Bearer <token>"
+  (req: AuthenticatedRequest, _res: Response, next: NextFunction) => {
     const authHeader = req.headers["authorization"];
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json(response.error("Unauthorized"));
+      throw new AppError("Unauthorized", 401, "NOT_AUTHORIZED");
     }
 
     const token = authHeader.split(" ")[1];
-    // Here you would verify the token and extract user information
-    // For demonstration, we'll just attach a dummy user to the request object
 
     if (!token) {
-      return res.status(401).json(response.error("Invalid token"));
+      throw new AppError("Invalid token", 401, "INVALID_TOKEN");
     }
 
     const decodedToken = verifyAccessToken(token);
 
     if (!decodedToken) {
-      return res.status(401).json(response.error("Invalid or expired token"));
+      throw new AppError("Invalid or expired token", 401, "INVALID_TOKEN");
     }
 
     req.user = decodedToken;

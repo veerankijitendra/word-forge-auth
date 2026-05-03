@@ -24,8 +24,8 @@ router.post(
 );
 
 // GET /api/users
-router.get("/", authenticate, getUsersController);
+router.get("/", authenticate, asyncHandler(getUsersController));
 
-router.delete("/", authenticate, deleteAllUsersController);
+router.delete("/", authenticate, asyncHandler(deleteAllUsersController));
 
 export default router;

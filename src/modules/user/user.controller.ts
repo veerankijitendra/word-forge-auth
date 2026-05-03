@@ -1,4 +1,4 @@
-import type { Request, Response, NextFunction } from "express";
+import type { Request, Response } from "express";
 import { createUser, deleteAllUsersService, findUsers } from "./user.service";
 import type { CreateUserInput } from "./user.schema";
 import { response } from "../../middlewares/response";
@@ -18,13 +18,9 @@ export const createUserController = async (
   res.status(201).json(response.success(user, "User created successfully"));
 };
 
-export const getUsersController = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const users = await findUsers();
-    res.status(200).json(response.success(users, "Users retrieved successfully"));
-  } catch (error) {
-    next(error);
-  }
+export const getUsersController = async (req: Request, res: Response) => {
+  const users = await findUsers();
+  res.status(200).json(response.success(users, "Users retrieved successfully"));
 };
 
 export const deleteAllUsersController = async (req: Request, res: Response) => {
